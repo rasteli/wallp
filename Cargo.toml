@@ -1,6 +1,6 @@
 [package]
 name = "wallp"
-version = "0.1.1"
+version = "0.1.2"
 edition = "2021"
 authors = ["Gabriel Rasteli"]
 license = "MIT"
@@ -18,11 +18,11 @@ inquire = { version = "0.6.2", features = ["date"] }
 colored = "2"
 home = "0.5.5"
 regex = "1.9.1"
-clap = { version = "4.3.11", features = ["derive"] }
 toml = "0.7.6"
 serde = "1.0.167"
 serde_derive = "1.0.167"
 itertools = "0.11.0"
+winit = "0.28.6"
 
 [[bin]]
 name = "wallp"

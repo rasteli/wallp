@@ -1,5 +1,4 @@
 use std::{fs, io};
-use toml;
 
 use crate::structs::Data;
 

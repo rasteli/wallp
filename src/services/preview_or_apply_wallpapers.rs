@@ -1,4 +1,4 @@
-use crate::utils::{read_file::read_file, spawn_feh::spawn_feh};
+use crate::utils::{get_available_monitors, read_file, spawn_feh};
 use inquire::{
     error::InquireResult, list_option::ListOption, validator::Validation, CustomType, MultiSelect,
 };
@@ -12,8 +12,10 @@ pub fn preview_or_apply_wallpapers(
     wallp_dir: String,
     directories_file: String,
     preview: bool,
-    monitor_count: usize,
 ) -> InquireResult<()> {
+    let available_monitors = get_available_monitors();
+    let monitor_count = available_monitors.len();
+
     let file_path = format!("{}/{}", wallp_dir, directories_file);
 
     let dirs = read_file(&file_path[..]).unwrap();
@@ -64,13 +66,20 @@ pub fn preview_or_apply_wallpapers(
 
     let mut images: Vec<String> = images.iter().map(|img| img.to_string()).collect();
 
+    let help_message = available_monitors
+        .iter()
+        .enumerate()
+        .map(|(index, value)| format!("{index}: {value}"))
+        .collect::<Vec<_>>()
+        .join(", ");
+
     if images.len() > 1 {
         for img in images.clone().iter().take(monitor_count) {
             let monitor_index: usize =
-                CustomType::new(format!("Apply image {} to monitor", img).as_str())
+                CustomType::new(format!("Apply image {} to monitor:", img).as_str())
                     .with_placeholder("0")
                     .with_error_message("Please type a valid number")
-                    .with_help_message(format!("Type a number (0-{})", monitor_count - 1).as_str())
+                    .with_help_message(&help_message)
                     .prompt()?;
 
             images[monitor_index] = img.to_string();

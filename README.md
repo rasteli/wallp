@@ -2,7 +2,7 @@
 
 <div align="center">
   <h3>CLI tool to set and preview wallpapers with feh.</h3>
-</div> 
+</div>
 
 ### Showcase
 
@@ -17,12 +17,7 @@ cargo install wallp
 ### Usage
 
 ```bash
-Usage: wallp [OPTIONS]
-
-Options:
-  -m, --monitors <MONITORS>  [default: 1]
-  -h, --help                 Print help
-  -V, --version              Print version
+$ wallp
 ```
 
 ### Dependencies

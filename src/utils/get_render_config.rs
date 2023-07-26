@@ -2,7 +2,7 @@ use home::home_dir;
 use inquire::ui::{Attributes, Color, RenderConfig, StyleSheet, Styled};
 use std::{io, path::Path};
 
-use super::{deserialize_data::deserialize_data, serialize_data::serialize_data};
+use super::{deserialize_data, serialize_data};
 
 fn leak(str: String) -> &'static str {
     Box::leak(str.into_boxed_str())

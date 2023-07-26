@@ -1,7 +1,6 @@
-use super::read_file::read_file;
+use super::read_file;
 use crate::structs::Data;
 use std::process;
-use toml;
 
 pub fn deserialize_data(config_file: &String) -> Data {
     let content = match read_file(&config_file[..]) {

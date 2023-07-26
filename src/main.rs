@@ -1,23 +1,13 @@
-use clap::Parser;
 use inquire::{error::InquireResult, Select};
 use itertools::Itertools;
 use std::collections::HashMap;
 
-use crate::services::{
-    add_wallp_dirs::add_wallp_dirs, preview_or_apply_wallpapers::preview_or_apply_wallpapers,
-};
+use crate::services::{add_wallp_dirs, preview_or_apply_wallpapers};
 use crate::utils::bootstrap::config;
 
 mod services;
 mod structs;
 mod utils;
-
-#[derive(Parser, Debug)]
-#[command(author, version, about, long_about = None)]
-struct Args {
-    #[arg(short, long, default_value_t = 1)]
-    monitors: usize,
-}
 
 enum CodeCases {
     Set,
@@ -25,18 +15,13 @@ enum CodeCases {
 }
 
 impl CodeCases {
-    fn exec(&self, wallp_dir: String, directories_file: String, args: Args) {
+    fn exec(&self, wallp_dir: String, directories_file: String) {
         use CodeCases::*;
 
         match self {
             Set => add_wallp_dirs(wallp_dir, directories_file),
             Preview(preview) => {
-                let code_case = preview_or_apply_wallpapers(
-                    wallp_dir,
-                    directories_file,
-                    *preview,
-                    args.monitors,
-                );
+                let code_case = preview_or_apply_wallpapers(wallp_dir, directories_file, *preview);
 
                 if code_case.is_err() {
                     let action = if *preview { "preview" } else { "apply" };
@@ -49,8 +34,6 @@ impl CodeCases {
 
 fn main() -> InquireResult<()> {
     let (wallp_dir, directories_file) = config()?;
-
-    let args = Args::parse();
 
     let cases = HashMap::from([
         ("Set wallpapers directories", CodeCases::Set),
@@ -65,7 +48,7 @@ fn main() -> InquireResult<()> {
         return Err(inquire::InquireError::Custom("Invalid selecition".into()));
     }
 
-    cases[answer].exec(wallp_dir, directories_file, args);
+    cases[answer].exec(wallp_dir, directories_file);
 
     Ok(())
 }

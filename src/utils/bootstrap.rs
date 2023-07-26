@@ -1,4 +1,4 @@
-use super::get_render_config::get_render_config;
+use super::get_render_config;
 use home::home_dir;
 use inquire::ui::RenderConfig;
 use std::{fs, io::Error, path::Path};
